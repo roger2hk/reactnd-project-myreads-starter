@@ -39,6 +39,8 @@ class SearchBooks extends React.Component {
           }));
         }
       });
+    } else {
+      this.setState({ queryBooks: [] });
     }
   };
 
