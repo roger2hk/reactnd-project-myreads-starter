@@ -5,13 +5,21 @@ class Book extends React.Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
     authors: PropTypes.array,
-    imageLinks: PropTypes.object.isRequired,
+    imageLinks: PropTypes.object,
     shelf: PropTypes.string,
     onUpdateShelf: PropTypes.func.isRequired
   };
 
   onBookshelfChange = bookshelf => {
     this.props.onUpdateShelf(this.props.id, bookshelf);
+  };
+
+  getThumbnail = () => {
+    if (this.props.imageLinks) {
+     return this.props.imageLinks.thumbnail;
+    } else {
+      return "https://books.google.com/googlebooks/images/no_cover_thumb.gif";
+    }
   };
 
   render() {
@@ -23,7 +31,7 @@ class Book extends React.Component {
             style={{
               width: 128,
               height: 193,
-              backgroundImage: "url(" + this.props.imageLinks.thumbnail + ")"
+              backgroundImage: "url(" + this.getThumbnail() + ")"
             }}
           ></div>
           <div className="book-shelf-changer">

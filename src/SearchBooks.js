@@ -16,11 +16,12 @@ class SearchBooks extends React.Component {
   };
 
   updateQuery = query => {
-    this.setState(() => ({
-      query: query.trim()
-    }));
-
-    this.searchBooks(this.state.query);
+    this.setState(
+      () => ({
+        query: query.trim()
+      }),
+      () => this.searchBooks(this.state.query)
+    );
   };
 
   clearQuery = () => {
