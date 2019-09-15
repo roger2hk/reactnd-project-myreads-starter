@@ -18,7 +18,7 @@ class SearchBooks extends React.Component {
   updateQuery = query => {
     this.setState(
       () => ({
-        query: query.trim()
+        query: query
       }),
       () => this.searchBooks(this.state.query)
     );
@@ -34,6 +34,16 @@ class SearchBooks extends React.Component {
         if (queryBooks.error) {
           this.setState({ queryBooks: [] });
         } else {
+          queryBooks.forEach(queryBook => {
+            const book = this.props.books.find(
+              book => book.id === queryBook.id
+            );
+
+            if (book) {
+              queryBook.shelf = book.shelf;
+            }
+          });
+
           this.setState(() => ({
             queryBooks
           }));
@@ -46,6 +56,7 @@ class SearchBooks extends React.Component {
 
   updateShelf = (bookId, shelf) => {
     const book = this.state.queryBooks.find(book => book.id === bookId);
+    book.shelf = shelf;
     this.props.onUpdateShelf(book, shelf);
   };
 
@@ -85,7 +96,7 @@ class SearchBooks extends React.Component {
                     title={book.title}
                     authors={book.authors}
                     imageLinks={book.imageLinks}
-                    shelf={book.shelf}
+                    shelf={book.shelf ? book.shelf : "none"}
                     onUpdateShelf={this.updateShelf}
                   />
                 </li>
